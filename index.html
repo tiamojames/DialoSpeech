@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DialoSpeech: Dual-Speaker Dialogue Generation with LLM and Flow Matching</title>
+    <!-- 引入Tailwind CSS框架 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入Google Fonts以获得更好的字体效果 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 自定义基础样式 */
+        body {
+            font-family: 'Inter', 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc; /* 使用柔和的背景色 */
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+        /* 优化audio控件的垂直对齐 */
+        audio {
+            vertical-align: middle;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <!-- 页面主容器 -->
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+
+        <!-- 页面主标题和作者信息 -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">DialoSpeech: Dual-Speaker Dialogue Generation with LLM and Flow Matching</h1>
+            <!-- 作者及会议信息 -->
+            <!-- 
+            <h3 class="mt-4 text-lg text-gray-600">A work submitted to ASRU2023</h3>
+            <p class="mt-2 text-gray-500">Dake Guo<sup>1</sup>, Xinfa Zhu<sup>1</sup>, Liumeng Xue<sup>2</sup>, Tao Li<sup>1</sup>, Yuanjun Lv<sup>1</sup>, Yuepeng Jiang<sup>1</sup>, Lei Xie<sup>1</sup></p>
+            <p class="mt-1 text-sm text-gray-500"><sup>1</sup>Audio, Speech and Language Processing Group (ASLP@NPU), School of Computer Science, Northwestern Polytechnical University, Xi'an, China</p>
+            <p class="mt-1 text-sm text-gray-500"><sup>2</sup>School of Data Science, The Chinese University of Hong Kong, Shenzhen (CUHK-Shenzhen), China</p>
+            -->
+        </header>
+
+        <!-- 摘要部分 -->
+        <section id="abstract" class="mb-16 bg-white p-8 rounded-xl shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-6">Abstract</h2>
+            <p class="text-gray-700 leading-relaxed text-left md:text-justify">
+                Recent advances in text-to-speech (TTS) synthesis, particularly those leveraging large language models (LLMs), have significantly improved expressiveness and naturalness. 
+                However, generating human-like, interactive dialogue speech remains challenging. Current systems face limitations due to the scarcity of dual-track data and difficulties in achieving naturalness, contextual coherence, interactional dynamics such as turn-taking, overlapping speech, and speaker consistency in multi-turn conversations. 
+                To address these challenges, we propose <strong>DialoSpeech</strong>, a dual-track architecture combining a large language model with Chunked Flow Matching for expressive, human-like dialogue speech synthesis. 
+                DialoSpeech generates natural multi-turn conversations with coherent speaker turns and natural overlaps and supports both Chinese, English, and cross-lingual speech synthesis. We further introduce a data processing pipeline to construct dual-track dialogue datasets, facilitating scalable training and experimental validation. Experiments show that our model outperforms baselines, offering a solution for generating human-like spoken dialogues.
+            </p>
+        </section>
+
+        <!-- 模型图示部分 -->
+        <section id="figures" class="mb-16">
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <!-- Inference Pipeline -->
+                <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-center mb-4 text-gray-800">Inference Pipeline</h4>
+                    <div class="flex-grow flex items-center justify-center">
+                        <img src="raw/fig/diaspeech_over.png" alt="DialoSpeech Inference Pipeline" class="w-full h-auto rounded-lg">
+                    </div>
+                </div>
+                <!-- Training Pipeline -->
+                <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-center mb-4 text-gray-800">Training Pipeline</h4>
+                    <div class="flex-grow flex items-center justify-center">
+                        <img src="raw/fig/training.png" alt="DialoSpeech Training Pipeline" class="w-full h-auto rounded-lg">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demos 总标题 -->
+        <h2 class="text-3xl font-bold text-center mt-20 mb-10 border-b pb-4">Demos</h2>
+        
+        <!-- 分区1: 中文对话样本 -->
+        <section id="chinese_dialog_demo" class="mb-16">
+            <h3 class="text-2xl font-bold text-center mb-8">中文对话样本</h3>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-4 text-lg font-semibold">对话文本</th>
+                            <th class="p-4 text-lg font-semibold w-1/3 md:w-1/4">合成音频</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-t">
+                            <td class="p-4 text-gray-700 leading-relaxed text-sm">
+                                <strong class="text-purple-600">[s1]</strong>我觉得啊，就是经历了这么多年的经验， 就是补剂的作用就是九分的努力， 十分之一的补剂。 嗯，选的话肯定是九分更重要，但是我觉得补剂它能够让你九分的努力更加的有效率，更加的避免徒劳无功。 嗯，就是你，你你得先得真的锻炼，真的努力，真的健康饮食，然后再考虑补剂， 那你再加十十分之一的补剂的话，他可能就是说啊， 一半是心理作用，<strong class="text-purple-600">[s2]</strong> 对，其实很多时候心理作用是非常重要的。嗯，然后我每次用补剂的时候，我就会更加努力，就比如说我在健身之前我喝了一勺蛋白粉，我就会督促自己多练，<strong class="text-purple-600">[s1]</strong> 其实心理作用只要能实现你的预期目的就可以了。 就比如说给自行车链条加油， 它其实不是必要的，但是它可以让你骑行更顺畅， 然后提高你骑行的频率。
+                            </td>
+                            <td class="p-4 align-middle">
+                                <audio controls class="w-full"><source src="./raw/samples/diaospeech_zh/diamoon_spk0.wav" type="audio/wav">您的浏览器不支持音频播放。</audio>
+                            </td>
+                        </tr>
+                        <tr class="border-t">
+                            <td class="p-4 text-gray-700 leading-relaxed text-sm">
+                                <p><strong class="text-blue-600">A：</strong>哎，好久不见，李明听说你研究生是保研到了西北工业大学的 ASLP 实验室是吗？</p>
+                                <p><strong class="text-green-600">B：</strong>嗯，是的，我之前就一直对像音频啊语音合成这些特别感兴趣，刚好实验室也在专注研究这块，就真的，嗯，挺幸运的吧呵呵。</p>
+                                <p><strong class="text-blue-600">A：</strong>哦？那今天能和大家分享一下你们最近在语音合成方面的一些进展吗？感觉大家呃现在对这方面都挺感兴趣呢。</p>
+                                <p><strong class="text-green-600">B：</strong>对，最近我们刚开发出了一个用16万小时中英文数据训练的模型，呃效果怎么说呢，嗯，真的非常不错。</p>
+                            </td>
+                            <td class="p-4 align-middle">
+                                <audio controls class="w-full"><source src="./raw/dialog_pr.wav" type="audio/wav">您的浏览器不支持音频播放。</audio>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 分区2: DiaSpeech vs. CoVoMix 对比 -->
+        <section id="comparison_demo">
+            <h3 class="text-2xl font-bold text-center mb-8">DiaSpeech vs. CoVoMix (En)</h3>
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-4 font-semibold w-1/3">Dialogue Text</th>
+                            <th class="p-4 font-semibold text-center">Prompt (A)</th>
+                            <th class="p-4 font-semibold text-center">Prompt (B)</th>
+                            <th class="p-4 font-semibold text-center text-cyan-600">DialoSpeech</th>
+                            <th class="p-4 font-semibold text-center text-purple-600">CoVoMix</th>
+                        </tr>
+                    </thead>
+                    <!-- 表格内容将由JavaScript动态生成 -->
+                    <tbody id="comparison-tbody"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+
+    <script type="text/javascript">
+        // 当文档加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 数据源: 场景ID和对应的对话文本
+            const scenes = [
+                { id: 1, text: "[s1]he was in jail for fourteen times and they finally deported him [s2] fourteen times [s1] yeah his family spent over two hundred thousand dollars keeping him here [s2] wow [s1] and then finally they said no that’s it he’s out can’t even come back to visit" },
+                { id: 2, text: "[s1]my life was like consumed with the television and it was it was just sad i it that was awful [s2] and i remember the i think the day after and like gas prices went up to like three bucks a gallon [s1] oh i know [s2]everybody was like filling up with gas in the town i live in panicking and mhm [s1] really wow" },
+                { id: 3, text: "[s1]something around there yeah that’s that’s good [s2] i don’t think they’d ever get a divorce [s1] no i know" },
+                { id: 4, text: "[s1]so i’m not i don’t know what it is i don’t know what the minimum wage is or [s2] uh it’s five fifteen now it was like four seventy five something like that [s1] my gosh" },
+                { id: 5, text: "[s1]which is uh very strange it’s not something i ever thought would happen [s2] yeah that’s not good [s1] no" },
+                { id: 6, text: "[s1]hard choice to make especially when you get peer pressure and then once you start doing it hey look now i’m cool [s2] mhm but in reality if you actually had to do that to be cool you’re hanging with the wrong parents anyways right right i think my brother in law and his" }
+            ];
+
+            const tbody = document.getElementById('comparison-tbody');
+            if (!tbody) {
+                console.error("错误：无法找到ID为 'comparison-tbody' 的元素。");
+                return;
+            }
+
+            // 遍历所有场景数据，为每个场景生成一行表格
+            scenes.forEach(scene => {
+                const row = document.createElement('tr');
+                row.className = 'border-t hover:bg-gray-50 transition-colors';
+
+                const promptAPath = `./raw/prompt/en/dia${scene.id}-A.wav`;
+                const promptBPath = `./raw/prompt/en/dia${scene.id}-B.wav`;
+                const dialoSpeechPath = `./raw/samples/diaospeech_en/dia${scene.id}.wav`;
+                const coVoMixPath = `./raw/samples/covomix/dia${scene.id}.wav`;
+
+                row.innerHTML = `
+                    <td class="p-4 text-sm text-gray-600">${scene.text}</td>
+                    <td class="p-2 text-center">
+                        <audio controls class="w-full max-w-xs mx-auto"><source src="${promptAPath}" type="audio/wav">Error</audio>
+                    </td>
+                    <td class="p-2 text-center">
+                        <audio controls class="w-full max-w-xs mx-auto"><source src="${promptBPath}" type="audio/wav">Error</audio>
+                    </td>
+                    <td class="p-2 text-center">
+                        <audio controls class="w-full max-w-xs mx-auto"><source src="${dialoSpeechPath}" type="audio/wav">Error</audio>
+                    </td>
+                    <td class="p-2 text-center">
+                        <audio controls class="w-full max-w-xs mx-auto"><source src="${coVoMixPath}" type="audio/wav">Error</audio>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        });
+    </script>
+
+</body>
+</html>
