@@ -26,7 +26,10 @@
           <mxGeometry x="50" y="360" width="17.88" height="20" as="geometry" />
         </mxCell>
         <mxCell id="DLOq4eQ6a9bG40F60lvK-17" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;SoulX-Podcast&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
-          <mxGeometry x="380" y="220" width="310" height="95" as="geometry" />
+          <mxGeometry x="410" y="200" width="314" height="92.5" as="geometry" />
+        </mxCell>
+        <mxCell id="DLOq4eQ6a9bG40F60lvK-19" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="430" y="360" width="40" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
