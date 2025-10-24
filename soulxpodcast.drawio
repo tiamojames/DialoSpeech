@@ -775,7 +775,7 @@
         <mxCell id="KzxoM8n_C0kGMiAK_DXO-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=11;fontColor=default;" edge="1" parent="1" source="KzxoM8n_C0kGMiAK_DXO-8" target="rxkbCg91MGJvxn5-Q7hc-981">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="KzxoM8n_C0kGMiAK_DXO-8" value="History tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;arcSize=33;" vertex="1" parent="1">
+        <mxCell id="KzxoM8n_C0kGMiAK_DXO-8" value="History Tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;arcSize=33;" vertex="1" parent="1">
           <mxGeometry x="240" y="582" width="70" height="35" as="geometry" />
         </mxCell>
         <mxCell id="KzxoM8n_C0kGMiAK_DXO-17" value="Text Tokens" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
